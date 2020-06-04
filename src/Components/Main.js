@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Title from "./Title";
 import PhotoWall from "./PhotoWall";
+import AddPhoto from "./AddPhoto";
+import { Route } from "react-router-dom";
 
 class Main extends Component {
   constructor() {
@@ -31,6 +33,8 @@ class Main extends Component {
       ],
     };
     this.removePhoto = this.removePhoto.bind(this);
+    //bind: to point the component instance(can't point the component = can't access the main component here)
+    //so, bind means : this is the component
   }
 
   removePhoto(postRemoved) {
@@ -50,8 +54,23 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <Title title={"PhotoWall"} />
-        <PhotoWall posts={this.state.posts} onRemovePhoto={this.removePhoto} />
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <div>
+              <Title title={"PhotoWall"} />
+              <PhotoWall
+                posts={this.state.posts}
+                onRemovePhoto={this.removePhoto}
+                onNavigate={this.navigate}
+              />
+            </div>
+          )}
+        />
+
+        <Route path="/AddPhoto" component={AddPhoto} />
+        {/* Because it is just a single component, make it more concise */}
       </div>
     );
   }
